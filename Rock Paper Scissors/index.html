@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock! Paper! Scissors!</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    </style>
+</head>
+
+<body>
+    <div class="fullBody">
+        <div class="header">
+            <h1>Rock! Paper! Scissors!</h1>
+        </div>
+        <div>
+            <h2 id="header3">Prepare for the Game!</h2>
+
+        </div>
+        <div class="pitch">
+            <ul>
+                <li id="ym">Your Move</li>
+                <span>vs</span>
+                <li id="om">Opponent Move</li>
+            </ul>
+        </div>
+        <div class="options">
+            <h2 class="header2">Choose one!</h2>
+            <ul id="moves">
+                <li id="rock">
+                    <img src="/images/rock1.png" alt="rock"> Rock
+                </li>
+                <li id="paper">
+                    <img src="/images/paper1.png" alt="paper">Paper
+                </li>
+                <li id="scissors">
+                    <img src="/images/scissors1.png" alt="scissors">Scissors
+                </li>
+            </ul>
+            <div class="btn-wrapper">
+                <button class="buttons" id="subx" type="submit">submit</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const rockDOM = document.querySelector("#rock");
+        const paperDOM = document.querySelector("#paper");
+        const scissorsDOM = document.querySelector("#scissors");
+        const yourMoveDOM = document.querySelector("#ym");
+        const opMoveDOM = document.querySelector("#om");
+        const btnSubDOM = document.querySelector("#subx");
+        const headerDOM = document.querySelector("#header3");
+        const movesDOM = document.querySelector("#moves");
+        const header2DOM = document.querySelector(".header2");
+        const btnWrapperDOM = document.querySelector(".btn-wrapper");
+        const btnAgainDOM = document.querySelector("#suby");
+        const optionsDOM = document.querySelector(".options");
+
+
+
+        console.log(rockDOM);
+        console.log(paperDOM);
+        console.log(scissorsDOM);
+        console.log(yourMoveDOM);
+        console.log(opMoveDOM);
+        console.log(btnSubDOM);
+        let selecto = 0;
+
+
+
+
+
+        function playAgain() {
+            location.reload();
+
+        };
+
+        function opMadeAMove() {
+            let opMove = Math.floor(Math.random() * 3) + 1;
+            if (opMove === 1) { opMoveDOM.innerHTML = `<img src="/images/oprock1.png" alt="rock">` }
+            else if (opMove === 2) { opMoveDOM.innerHTML = `<img src="/images/oppaper1.png" alt="paper">` }
+            else if (opMove === 3) { opMoveDOM.innerHTML = `<img src="/images/opscissors1.png" alt="scissors">` }
+            return opMove;
+        }
+
+        function rockClickHandler() {
+            resetBorders();
+            selecto = 1;
+            console.log(selecto);
+            rockDOM.style.borderColor = "#5501fd";
+            yourMoveDOM.innerHTML = `<img src="/images/rock1.png" alt="rock">`;
+        };
+
+        function paperClickHandler() {
+            resetBorders();
+            selecto = 2;
+            console.log(selecto);
+            paperDOM.style.borderColor = "#5501fd";
+            yourMoveDOM.innerHTML = `<img src="/images/paper1.png" alt="paper">`;
+        }
+
+        function scissorsClickHandler() {
+            resetBorders();
+            selecto = 3;
+            console.log(selecto);
+            scissorsDOM.style.borderColor = "#5501fd";
+            yourMoveDOM.innerHTML = `<img src="/images/scissors1.png" alt="scissors">`;
+        }
+
+        rockDOM.addEventListener("click", rockClickHandler);
+        paperDOM.addEventListener("click", paperClickHandler);
+        scissorsDOM.addEventListener("click", scissorsClickHandler);
+
+        function resetBorders() {
+            rockDOM.style.borderColor = "";
+            paperDOM.style.borderColor = "";
+            scissorsDOM.style.borderColor = "";
+        }
+
+        function winnerCalc(opMove) {
+            if (selecto === 1 && opMove === 1) {
+                headerDOM.innerText = "Draw!";
+
+            } else if (selecto === 1 && opMove === 2) {
+                headerDOM.innerText = "You Lose!";
+
+            } else if (selecto === 1 && opMove === 3) {
+                headerDOM.innerText = "You Win!";
+
+            } else if (selecto === 2 && opMove === 1) {
+                headerDOM.innerText = "You Win!";
+
+            } else if (selecto === 2 && opMove === 2) {
+                headerDOM.innerText = "Draw!";
+
+            } else if (selecto === 2 && opMove === 3) {
+                headerDOM.innerText = "You Lose!";
+
+            } else if (selecto === 3 && opMove === 1) {
+                headerDOM.innerText = "You Lose!";
+
+            } else if (selecto === 3 && opMove === 2) {
+                headerDOM.innerText = "You Win!";
+
+            } else if (selecto === 3 && opMove === 3) {
+                headerDOM.innerText = "Draw!";
+            }
+        }
+
+        btnSubDOM.addEventListener("click", function () {
+            const opMove = opMadeAMove();
+            winnerCalc(opMove);
+            movesDOM.remove();
+            header2DOM.remove();
+            btnWrapperDOM.innerHTML = `<button class="buttons" id="suby" type="submit">Play Again</button>`
+        });
+
+
+
+        document.addEventListener("click", function (event) {
+            if (event.target.matches("#suby")) {
+                playAgain();
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>
