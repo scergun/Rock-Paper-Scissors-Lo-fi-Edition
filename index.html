@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock! Paper! Scissors!</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+        .d-none {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="fullBody">
+        <div class="header">
+            <h1>Rock! Paper! Scissors!</h1>
+        </div>
+        <div>
+            <h2 id="header3">Prepare for the Game!</h2>
+        </div>
+        <div class="pitch">
+            <ul>
+                <li id="ym">Your Move</li>
+                <span>vs</span>
+                <li id="om">Opponent Move</li>
+            </ul>
+            <div style="display: flex; justify-content: space-around;">
+                <h2 id="ywin">0</h2>
+                <h2 id="owin">0</h2>
+            </div>
+
+        </div>
+        <div class="options">
+            <h2 class="header2">Choose one!</h2>
+            <ul id="moves">
+                <li id="rock">
+                    <img src="images/rock1.png" alt="rock"> Rock
+                </li>
+                <li id="paper">
+                    <img src="images/paper1.png" alt="paper">Paper
+                </li>
+                <li id="scissors">
+                    <img src="images/scissors1.png" alt="scissors">Scissors
+                </li>
+            </ul>
+            <div class="btn-wrapper">
+                <button class="buttons" id="subx" type="submit">Submit</button>
+                <button class="buttons d-none" id="suby" type="submit">Play Again</button>
+                <button class="buttons" id="subz" type="submit">New Game</button>
+
+            </div>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <p>Please choose a move!</p>
+                </div>
+            </div>
+            <div class="modal-overlay"></div>
+        </div>
+    </div>
+    <script>
+        const rockDOM = document.querySelector("#rock");
+        const paperDOM = document.querySelector("#paper");
+        const scissorsDOM = document.querySelector("#scissors");
+        const yourMoveDOM = document.querySelector("#ym");
+        const opMoveDOM = document.querySelector("#om");
+        const btnSubDOM = document.querySelector("#subx");
+        const headerDOM = document.querySelector("#header3");
+        const movesDOM = document.querySelector("#moves");
+        const header2DOM = document.querySelector(".header2");
+        const btnWrapperDOM = document.querySelector(".btn-wrapper");
+        const btnAgainDOM = document.querySelector("#suby");
+        const optionsDOM = document.querySelector(".options");
+        const yscoreDOM = document.querySelector("#ywin");
+        const oscoreDOM = document.querySelector("#owin");
+        const btnResetDOM = document.querySelector("#subz");
+
+
+
+        console.log(rockDOM);
+        console.log(paperDOM);
+        console.log(scissorsDOM);
+        console.log(yourMoveDOM);
+        console.log(opMoveDOM);
+        console.log(btnSubDOM);
+        let selecto = 0;
+
+
+
+
+
+
+        window.addEventListener("DOMContentLoaded", function () {
+            let getYScore = localStorage.getItem("score1")
+            let getOScore = localStorage.getItem("score2")
+
+            var score1 = getYScore ?? 0
+            var score2 = getOScore ?? 0
+
+            yscoreDOM.innerHTML = score1;
+            oscoreDOM.innerHTML = score2;
+
+            function playAgain() {
+                movesDOM.classList.remove('d-none');
+                header2DOM.classList.remove('d-none');
+                btnAgainDOM.classList.add('d-none');
+                btnSubDOM.classList.remove('d-none');
+                yourMoveDOM.classList.remove('bounce');
+                opMoveDOM.classList.remove('bounce');
+                selecto = 0;
+                opMoveDOM.innerHTML = "Opponent's Move";
+                yourMoveDOM.innerHTML = "Your Move";
+                resetBorders();
+
+            };
+
+            function opMadeAMove() {
+                let opMove = Math.floor(Math.random() * 3) + 1;
+                if (opMove === 1) { opMoveDOM.innerHTML = `<img src="images/oprock1.png" alt="rock">` }
+                else if (opMove === 2) { opMoveDOM.innerHTML = `<img src="images/oppaper1.png" alt="paper">` }
+                else if (opMove === 3) { opMoveDOM.innerHTML = `<img src="images/opscissors1.png" alt="scissors">` }
+                return opMove;
+            }
+
+            function rockClickHandler() {
+                resetBorders();
+                selecto = 1;
+                console.log(selecto);
+                rockDOM.style.borderColor = "#5501fd";
+                yourMoveDOM.innerHTML = `<img src="images/rock1.png" alt="rock">`;
+            };
+
+            function paperClickHandler() {
+                resetBorders();
+                selecto = 2;
+                console.log(selecto);
+                paperDOM.style.borderColor = "#5501fd";
+                yourMoveDOM.innerHTML = `<img src="images/paper1.png" alt="paper">`;
+            }
+
+            function scissorsClickHandler() {
+                resetBorders();
+                selecto = 3;
+                console.log(selecto);
+                scissorsDOM.style.borderColor = "#5501fd";
+                yourMoveDOM.innerHTML = `<img src="images/scissors1.png" alt="scissors">`;
+            }
+
+            rockDOM.addEventListener("click", rockClickHandler);
+            paperDOM.addEventListener("click", paperClickHandler);
+            scissorsDOM.addEventListener("click", scissorsClickHandler);
+
+            function resetBorders() {
+                rockDOM.style.borderColor = "";
+                paperDOM.style.borderColor = "";
+                scissorsDOM.style.borderColor = "";
+            }
+
+            function winnerCalc(opMove) {
+                if (selecto === 1 && opMove === 1) {
+                    headerDOM.innerText = "Draw!";
+
+                } else if (selecto === 1 && opMove === 2) {
+                    headerDOM.innerText = "You Lose!";
+                    score2++;
+                    opMoveDOM.classList.add('bounce');
+                } else if (selecto === 1 && opMove === 3) {
+                    headerDOM.innerText = "You Win!";
+                    score1++
+                    yourMoveDOM.classList.add('bounce');
+
+                } else if (selecto === 2 && opMove === 1) {
+                    headerDOM.innerText = "You Win!";
+                    score1++
+                    yourMoveDOM.classList.add('bounce');
+
+                } else if (selecto === 2 && opMove === 2) {
+                    headerDOM.innerText = "Draw!";
+
+                } else if (selecto === 2 && opMove === 3) {
+                    headerDOM.innerText = "You Lose!";
+                    score2++;
+                    opMoveDOM.classList.add('bounce');
+
+                } else if (selecto === 3 && opMove === 1) {
+                    headerDOM.innerText = "You Lose!";
+                    score2++;
+                    opMoveDOM.classList.add('bounce');
+
+                } else if (selecto === 3 && opMove === 2) {
+                    headerDOM.innerText = "You Win!";
+                    score1++
+                    yourMoveDOM.classList.add('bounce');
+
+                } else if (selecto === 3 && opMove === 3) {
+                    headerDOM.innerText = "Draw!";
+                }
+
+                yscoreDOM.innerHTML = score1;
+                oscoreDOM.innerHTML = score2;
+                localStorage.setItem("score1", score1.toString())
+                localStorage.setItem("score2", score2.toString())
+            }
+
+            btnSubDOM.addEventListener("click", function () {
+
+                if (selecto === 0) {
+                    openModal();
+                }
+                else {
+                    const opMove = opMadeAMove();
+                    winnerCalc(opMove);
+
+                    movesDOM.classList.add('d-none');
+                    header2DOM.classList.add('d-none');
+                    btnSubDOM.classList.add('d-none');
+                    btnAgainDOM.classList.remove('d-none');
+                }
+            });
+
+
+
+
+            document.addEventListener("click", function (event) {
+                if (event.target.matches("#suby")) {
+                    playAgain();
+                }
+            });
+
+
+            btnResetDOM.addEventListener("click", function () {
+                localStorage.clear()
+                score1 = 0;
+                score2 = 0;
+                yscoreDOM.innerHTML = score1;
+                oscoreDOM.innerHTML = score2;
+                playAgain();
+
+
+            })
+        })
+
+
+        function openModal() {
+            const modal = document.getElementById("myModal");
+            modal.style.display = "block";
+
+            setTimeout(function () {
+                closeModal();
+            }, 1250);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 id="skor1"></h1>
+    <h1 id="skor2"></h1>
+    <button style="width:50px; height: 25px;" id="btn" type="submit"></button>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            let ySkorStorage = localStorage.getItem("skor1");
+            debugger;
+            const btn = document.getElementById("btn")
+            const skorDOM = document.getElementById("skor1")
+            const skor2DOM = document.getElementById("skor2")
+
+
+
+            debugger;
+
+            var skor1 = ySkorStorage ?? 0
+            var skor2 = 0
+            skorDOM.innerHTML = skor1
+            skor2DOM.innerHTML = skor2
+
+            btn.addEventListener("click", function () {
+
+                skor1++;
+                skor2++
+                skorDOM.innerHTML = skor1
+                skor2DOM.innerHTML = skor2
+
+                localStorage.setItem("skor1", skor1.toString())
+                localStorage.setItem("skor2", skor2.toString())
+            })
+        })
+
+
+    </script>
+</body>
+
+</html>
